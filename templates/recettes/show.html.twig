@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recettes{% endblock %}
+
+{% block body %}
+{% include 'navbar.html.twig' %}
+    <div class="card col-lg-4" >
+    <img src="{{ asset('/upload/images/' ~ recette.image) }}" style="width:100px" class="card-img-top mt-3" alt="...">
+        <div class="card-body">
+            <h4 class="card-title">{{ recette.nomRecette }}</h4>   
+            <p class="card-text">Pour : {{ recette.nombrepersonne }} personnes</p>
+            <p class="card-text">Recette proposée par :  {{ recette.editor }}</p>
+            <p class="card-text">Noté : <img src="/icons/note.png" style="width:25px"> {{ recette.getMoyenneNote }}/5 ({{ recette.getTotalNote }})</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Difficulté : <img src="/icons/difficulte.png" style="width:20px"> {{ recette.difficulte.nomdifficulte }}</li>
+            <li class="list-group-item">Prix : <img src="/icons/prix.png" style="width:15px"> {{ recette.prix.nomprix }}</li>
+            <li class="list-group-item">Temps : <img src="/icons/temps.png" style="width:20px"> 
+            {{ recette.deserializer(recette.temps).heure != 0 ?recette.deserializer(recette.temps).heure ~  " h " : ''}}   
+            {{ recette.deserializer(recette.temps).minute }} min</li>
+        </ul>
+    </div>
+{# TODO formulaire visivle ou pas#}
+{{form_start(form)}}
+
+<button class="btn">{{ button_label|default('Envoyer') }}</button>
+{{form_end(form)}}
+
+{# box etapes #}
+        <div class="boxShow">
+            <div class='box-formShow'>
+                <div class='box-show-tab'></div>
+            <div class='box-show-title'>
+                <h2>Etapes</h2>
+            </div>
+                <div class='box-show' style="max-height: 500px;">
+                   <ul>
+                   {% for  r in recette.deserializer(recette.etape) %}
+                        <li>
+                            <p class="card-text"> {{ r.etape }}</p>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div> <br>   
+{# box ingredients #}
+        <div class="boxShow">
+            <div class='box-formShow'>
+                <div class='box-show-tab'></div>
+            <div class='box-show-title'>
+                <h2>Ingredients</h2>
+            </div>
+                <div class='box-show'>
+                    <ul>
+                        {% for key, i in recette.deserializer(recette.ingredient) %}
+                            <li>
+                                <p>{{ i.ingredient }}  {{ i.quantite }} {{ i.unite }}</p>    
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>   
+            </div>
+        </div><br>
+{# box commentaires #}    
+
+        
+        <div class="boxShow">
+            <div class='box-formShow'>
+                <div class='box-show-tab'></div>
+            <div class='box-show-title'>
+                <img src="/icons/add-512.png" style="width: 20px;">
+                
+            </div>
+            <div class='box-show'>
+                    <ul>
+                        {% for c in recette.commentaires %}
+                            <li>
+                                <span> {{ c.pseudo }}    <img src="/icons/note.png" style="width:25px">  {{ c.notes}}</span>
+                                <p>{{ c.commentaire }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>   
+            </div>
+        </div>
+
+
+
+
+    {#<a href="{{ path('recettes_index') }}">Retour</a>
+
+    <a href="{{ path('recettes_edit', {'id': recette.id}) }}">Modifier</a>
+
+    {{ include('recettes/_delete_form.html.twig') }}#}
+{% endblock %}

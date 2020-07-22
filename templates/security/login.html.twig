@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+{##}
+
+<div class='box'>
+  <div class='box-form'>
+    <div class='box-login-tab'></div>
+    <div class='box-login-title'>
+      <div class='i i-login'></div>
+      <h2>Connexion</h2>
+    </div>
+    <div class='box-login'>
+      <div class='fieldset-body' id='login_form'>
+
+       <p class='field'>
+          <label>E-MAIL</label>
+          <input type='email' class="form-control" value="{{ last_username }}" id='inputEmail' name='email' required autofocus/>
+        </p>
+      	  <p class='field'>
+          <label>PASSWORD</label>
+          <input type="password" name="password" id="inputPassword" class="form-control" required>
+        </p>
+
+          <label class='checkbox'>
+            <input type='checkbox' value='TRUE' title='Keep me Signed in' /> Se souvenir de moi
+          </label>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        	<input  type="submit" id='do_login' value='VALIDER' >
+      </div>
+    </div>
+  </div>
+<div class='box-info' style="height:250px"></div>
+  
+</div>
+{##}
+</form>
+
+
+{% endblock %}

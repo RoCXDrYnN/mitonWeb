@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recettes index{% endblock %}
+
+{% block body %}
+{% include 'navbar.html.twig' %}
+
+ 
+ {% for recette in recettes %}
+
+{% include 'recettes/_cardRecette.html.twig' %}
+
+        {% else %}
+            
+                <p colspan="3">Pas de recettes dsl</p>
+            
+        {% endfor %}
+
+{% endblock %}
